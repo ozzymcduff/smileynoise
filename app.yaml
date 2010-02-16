@@ -1,0 +1,16 @@
+application: smileynoise
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: main.py
+- url: /message/.*
+  script: message.py
+  login: required
+- url: /scripts
+  static_dir: scripts
+- url: .*
+  script: not_found.py
+
