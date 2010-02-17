@@ -25,14 +25,14 @@ class EditMessageForm(webapp.RequestHandler):
 			raise 'fail'
 
 	def get(self,pagetype,id):
-		id = str_to_long( id)#self.request.get('id'))
+		id = str_to_long( id)
 		self.assert_type(id,pagetype)
 		item = self.Type.get_by_id(ids=id,parent=None) if id else {'id':"",'value':""}
 		if id and item.writer != users.get_current_user():
 			raise 'no access'
 		self.response.out.write(template.render('views/message/edit.html',{'data':item}))
 	def post(self,pagetype,id):
-		id = str_to_long( id)#self.request.get('id'))
+		id = str_to_long( id)
 		self.assert_type(id,pagetype);
 		errors = []
 		#item = []
@@ -62,7 +62,7 @@ class ListForm(webapp.RequestHandler):
 	def get(self):
 		data = db.GqlQuery("""SELECT * 
 							FROM Message WHERE writer=:writer
-							ORDER BY updated DESC """, writer=users.get_current_user())#= :composer", composer="Lennon, John")
+							ORDER BY updated DESC """, writer=users.get_current_user())
 		txt = []
 		for item in data:
 			txt.append({'id':item.key().id(),'value':item.value})
