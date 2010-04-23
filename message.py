@@ -71,9 +71,13 @@ class ListForm(webapp.RequestHandler):
 class ConfirmDelete(webapp.RequestHandler):
 	def get(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
+		if item.writer != users.get_current_user():
+			raise 'no access'
 		self.response.out.write(template.render('views/message/confirmdelete.html',{ 'data':item}))
 	def post(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
+		if item.writer != users.get_current_user():
+			raise 'no access'
 		item.delete()
 		self.redirect("/message/")
 
