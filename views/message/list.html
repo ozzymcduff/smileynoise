@@ -1,28 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>list_message</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Oskar Gewalli">
-	<!-- Date: 2010-02-04 -->
-</head>
-<body>
-<table><thead>
-	<tr><th>Edit</th><th>Message</th><th>X</th></tr></thead>
+{% extends "../main/base.html" %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+<div class="span-9 prepend-1">
+<table>
+	<col align="left" />
+	<col align="right" width="70px" />
+	<thead>
+	<tr><th>Messages</th><th>Commands</th></tr></thead>
 	<tbody>
 	{% for message in messages %}
 	<tr>
-		<td><a href="/message/edit/{{ message.id }}/">Edit</a></td>
 		<td>{{ message.value|escape }}</td>
-		<td><a href="/message/confirmremove/{{ message.id }}/">Remove</a></td>
+		<td><a href="/message/edit/{{ message.id }}/" title="edit"><img src="/styles/tango/16x16/actions/document-open.png" width="16" height="16" alt="Open"></a> 
+			<a href="/message/confirmdelete/{{ message.id }}/" title="delete"><img src="/styles/tango/16x16/actions/edit-delete.png" width="16" height="16" alt="Delete"></a></td>
 	</tr>
 	{% endfor %}
 	</tbody>
 </table>
 
-<a href="/message/create/">Add message</a>
-</body>
-</html>
+<a href="/message/create/" title="create new"><img src="/styles/tango/16x16/actions/document-new.png" width="16" height="16" alt="Document New"></a>
+</div>
+{% endblock %}

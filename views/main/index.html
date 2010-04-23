@@ -1,26 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>index</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Oskar Gewalli">
-	<!-- Date: 2010-02-16 -->
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}index{% endblock %}
+{% block content %}
+<div class="span-9 prepend-1">
 <table><thead>
-	<tr><th>Author</th><th>Message</th></tr></thead>
+	<tr><th>Messages</th><th>Author</th></tr></thead>
 	<tbody>
 	{% for message in messages %}
 	<tr>
-		<td>{{ message.writer|escape }}</td>
 		<td>{{ message.value|escape }}</td>
+		<td>{{ message.writer|escape }}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
 </table>
-<a href="/message/">Messages</a>
-</body>
-</html>
+<a href="/message/">Edit Messages</a>
+</div>
+{% endblock %}

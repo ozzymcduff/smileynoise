@@ -1,30 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>message</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Oskar Gewalli">
-	<!-- Date: 2010-02-04 -->
-	<script src="/scripts/jquery-1.4.1.min.js" type="text/javascript" charset="utf-8"></script>
-	
-</head>
-<body>
-	{% if errors %}<div>{% for error in errors %}
-		<p>{{error}}</p>
-	{% endfor %} </div>{% endif %}
-	<form method="POST" action=".">
+{% extends "../main/base.html" %}
+{% block title %}Message{% endblock %}
+{% block content %}
+<div class="span-9 prepend-1">
+<form method="POST" action=".">
 <fieldset>
+<legend>Edit</legend>
 <p>
-	<label for="id_value">Value:</label>
-	<input type="text" name="value" id="id_value" value="{{ data.value }}" />
+	<label for="id_value">Value:</label><br/>
+	<input type="text" class="text" name="value" id="id_value" value="{{ data.value }}" />
+{% if errors %}<div class="error">{% for error in errors %}
+{{error}}
+{% endfor %} </div>{% endif %}
 </p>
 <p>
-	<input type="submit" value="submit"/>
+	<input type="image" src="/styles/tango/16x16/actions/document-save.png" title="save" value="submit" width="16" height="16" alt="Save"/> <a href="/message/">back</a>
 </p>
 </fieldset>
 </form>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -68,9 +68,19 @@ class ListForm(webapp.RequestHandler):
 			txt.append({'id':item.key().id(),'value':item.value})
 		self.response.out.write(template.render('views/message/list.html',{'messages':txt}))
 
+class ConfirmDelete(webapp.RequestHandler):
+	def get(self,id):
+		item = Message.get_by_id(ids=int(id),parent=None) 
+		self.response.out.write(template.render('views/message/confirmdelete.html',{ 'data':item}))
+	def post(self,id):
+		item = Message.get_by_id(ids=int(id),parent=None) 
+		item.delete()
+		self.redirect("/message/")
+
 application = webapp.WSGIApplication([
 
 ('/message/(create|edit)/([^\/]*).*', EditMessageForm),
+('/message/confirmdelete/([^\/]*).*', ConfirmDelete),
 
 ('/message/.*', ListForm),
 

@@ -11,6 +11,8 @@ handlers:
   login: required
 - url: /scripts
   static_dir: scripts
+- url: /styles
+  static_dir: styles
 - url: .*
   script: not_found.py
 

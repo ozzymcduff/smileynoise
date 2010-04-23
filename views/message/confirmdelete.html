@@ -1,0 +1,15 @@
+{% extends "../main/base.html" %}
+{% block title %}Delete{% endblock %}
+{% block content %}
+<div class="span-9 prepend-1">
+<form method="POST" action=".">
+<fieldset>
+<legend>Do you really want to delete?</legend>
+<p>{{ data.value }}</p>
+<p>
+	<input type="image" src="/styles/tango/16x16/actions/edit-delete.png" value="submit" width="16" height="16" alt="Delete"/> <a href="/message/">back</a>
+</p>
+</fieldset>
+</form>
+</div>
+{% endblock %}
