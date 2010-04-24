@@ -3,6 +3,19 @@
 {% block head %}
 <meta name="description" content="Messages using only smileys" />
 <meta name="keywords" content="Message, Smiley" />
+<script src="/scripts/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="../../scripts/jquery.twit.0.2.0/jquery.twit.0.2.0.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<script src="/scripts/jquery.twit.0.2.0/jquery.twit.0.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+	$('#twitter').twit("smileynoise");
+});
+</script>
+<style>
+.twit {
+ background-color: #C3D9FF;
+}
+</style>
 {% endblock %}
 {% block content %}
 <div class="span-9 prepend-1">
@@ -21,6 +34,10 @@
 <a href="/message/">Edit Messages</a>
 </p>
 </div>
+<div class="span-9 prepend-1">
+	<div id="twitter"></div>
+</div>
 <hr/>
-<div class="span-9 prepend-1"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsmileynoise.appspot.com%2F&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:50px"></iframe></div>
+<div class="span-9 prepend-1"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsmileynoise.appspot.com%2F&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:100px"></iframe></div>
+<hr/>
 {% endblock %}
