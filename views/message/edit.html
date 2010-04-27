@@ -7,7 +7,7 @@
 <div class="span-9 prepend-1">
 <form method="POST" action=".">
 <fieldset>
-<legend>Edit</legend>
+<legend>{{type|escape}}</legend>
 <p>
 	<label for="id_value">Value:</label><br/>
 	<input type="text" class="text" name="value" id="id_value" value="{{ data.value }}" />
@@ -16,7 +16,7 @@
 {% endfor %} </div>{% endif %}
 </p>
 <p>
-	<input type="image" src="/styles/tango/16x16/actions/document-save.png" title="save" value="submit" width="16" height="16" alt="Save"/> <a href="/message/">back</a>
+	<input type="image" src="/styles/tango/16x16/actions/document-save.png" title="save" value="submit" width="16" height="16" alt="Save"/>
 </p>
 </fieldset>
 </form>

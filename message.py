@@ -30,12 +30,11 @@ class EditMessageForm(webapp.RequestHandler):
 		item = self.Type.get_by_id(ids=id,parent=None) if id else {'id':"",'value':""}
 		if id and item.writer != users.get_current_user():
 			raise 'no access'
-		self.response.out.write(template.render('views/message/edit.html',{'data':item}))
+		self.response.out.write(template.render('views/message/edit.html',{'data':item,'type':pagetype}))
 	def post(self,pagetype,id):
 		id = str_to_long( id)
 		self.assert_type(id,pagetype);
 		errors = []
-		#item = []
 		value=self.request.get('value')
 		if not  SmileysValidation().isValid(value):
 			errors.append( "Not a smiley!")
@@ -55,7 +54,7 @@ class EditMessageForm(webapp.RequestHandler):
 			self.redirect(self.Home)
 		else:
 			# Reprint the form
-			self.response.out.write(template.render('views/message/edit.html',{'errors':errors, 'data':item}))
+			self.response.out.write(template.render('views/message/edit.html',{'errors':errors, 'data':item,'type':pagetype}))
 
 
 class ListForm(webapp.RequestHandler):

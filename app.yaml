@@ -9,6 +9,8 @@ handlers:
 - url: /message/.*
   script: message.py
   login: required
+- url: /view/.*
+  script: main.py
 - url: /scripts
   static_dir: scripts
 - url: /styles

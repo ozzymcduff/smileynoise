@@ -9,18 +9,16 @@
 	<col align="left" />
 	<col align="right" width="70px" />
 	<thead>
-	<tr><th>Messages</th><th>Commands</th></tr></thead>
+	<tr><th>Messages <a href="/message/create/" title="create new"><img src="/styles/tango/16x16/actions/document-new.png" width="16" height="16" alt="Document New"></a></th><th>Commands</th></tr></thead>
 	<tbody>
 	{% for message in messages %}
 	<tr>
-		<td>{{ message.value|escape }}</td>
+		<td><a href="/view/{{message.urlid|escape}}">{{ message.value|escape }}</a></td>
 		<td><a href="/message/edit/{{ message.id }}/" title="edit"><img src="/styles/tango/16x16/actions/document-open.png" width="16" height="16" alt="Open"></a> 
 			<a href="/message/confirmdelete/{{ message.id }}/" title="delete"><img src="/styles/tango/16x16/actions/edit-delete.png" width="16" height="16" alt="Delete"></a></td>
 	</tr>
 	{% endfor %}
 	</tbody>
 </table>
-
-<a href="/message/create/" title="create new"><img src="/styles/tango/16x16/actions/document-new.png" width="16" height="16" alt="Document New"></a>
 </div>
 {% endblock %}
