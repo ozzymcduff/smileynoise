@@ -1,7 +1,7 @@
 {% extends "../main/base.html" %}
-{% block title %}Message{% endblock %}
+{% block title %}{{ data.value|escape }}{% endblock %}
 {% block head %}
-<meta name="description" content="view" />
+<meta name="description" content="Display information about {{ data.value|escape }}. Including twitter." />
 <script src="/scripts/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 $(function(){
