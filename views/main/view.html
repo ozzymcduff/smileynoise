@@ -13,7 +13,7 @@ $(function(){
 		success: function (o) {
 			$.each(o.results,function(){
 				$("#twitter").append("<div><img src='"+this.profile_image_url+"'/> "+
-					"<h3 style='display:inline;'>"+this.from_user+"</h3>"+
+					"<h3 style='display:inline;'><a href='http://twitter.com/"+this.from_user+"/'>"+this.from_user+"</a></h3>"+
 					"<p>"+this.text+"</p>"+
 					""+this.created_at+"</div>");
 			});

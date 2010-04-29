@@ -10,6 +10,7 @@ import re
 from model import *
 from django.utils import simplejson
 from smileys import SmileysValidation
+from urlhelper import urlencode
 
 def str_to_long(_id):
 	id = int(_id) if _id != '' else None
@@ -56,7 +57,6 @@ class EditMessageForm(webapp.RequestHandler):
 			# Reprint the form
 			self.response.out.write(template.render('views/message/edit.html',{'errors':errors, 'data':item,'type':pagetype}))
 
-
 class ListForm(webapp.RequestHandler):
 	def get(self):
 		data = db.GqlQuery("""SELECT * 
@@ -64,7 +64,7 @@ class ListForm(webapp.RequestHandler):
 							ORDER BY updated DESC """, writer=users.get_current_user())
 		txt = []
 		for item in data:
-			txt.append({'id':item.key().id(),'value':item.value})
+			txt.append({'id':item.key().id(),'value':item.value,'urlid':urlencode(item.value)})
 		self.response.out.write(template.render('views/message/list.html',{'messages':txt}))
 
 class ConfirmDelete(webapp.RequestHandler):

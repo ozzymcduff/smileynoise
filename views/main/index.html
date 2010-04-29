@@ -25,7 +25,7 @@ $(function(){
 	<tbody>
 	{% for message in messages %}
 	<tr>
-		<td><a href="/view/{{message.id|escape}}">{{ message.value|escape }}</a></td>
+		<td><a href="/view/{{message.urlid|escape}}">{{ message.value|escape }}</a></td>
 		<td>{{ message.writer|escape }}</td>
 	</tr>
 	{% endfor %}

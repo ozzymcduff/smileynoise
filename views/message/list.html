@@ -13,7 +13,7 @@
 	<tbody>
 	{% for message in messages %}
 	<tr>
-		<td><a href="/view/{{message.id|escape}}">{{ message.value|escape }}</a></td>
+		<td><a href="/view/{{message.urlid|escape}}">{{ message.value|escape }}</a></td>
 		<td><a href="/message/edit/{{ message.id }}/" title="edit"><img src="/styles/tango/16x16/actions/document-open.png" width="16" height="16" alt="Open"></a> 
 			<a href="/message/confirmdelete/{{ message.id }}/" title="delete"><img src="/styles/tango/16x16/actions/edit-delete.png" width="16" height="16" alt="Delete"></a></td>
 	</tr>
