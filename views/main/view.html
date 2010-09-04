@@ -21,6 +21,9 @@ $(function(){
 	});
 });
 </script>
+<style type="text/css" media="screen">
+	#image{display:block;}
+</style>
 {% endblock %}
 {% block content %}
 <div class="span-9 prepend-1">
@@ -28,6 +31,10 @@ $(function(){
 <p>
 	<label for="value">Value:</label>
 	<div id="value">{{ data.value|escape }}</div>
+</p>
+<p>
+	<label for="image">Image:</label>
+	<img id="image" src="http://fierce-rain-25.heroku.com/image/view?smiley={{ urlid }}" alt="{{ data.value|escape }}"/>
 </p>
 <p>
 	<label for="writer">Author:</label>

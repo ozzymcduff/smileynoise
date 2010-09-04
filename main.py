@@ -33,7 +33,11 @@ class ViewMessage(webapp.RequestHandler):
 		else:
 			ids = urldecode(id)
 			item = Message.gql("WHERE value = :value",value=ids).get()
-		self.response.out.write(template.render('views/main/view.html',{ 'data':item, 'url': urllib.quote_plus("http://smileynoise.appspot.com/view/"+str(item.key().id()))}))
+		self.response.out.write(template.render('views/main/view.html',\
+			{ 'data':item,\
+			  'url': urllib.quote_plus("http://smileynoise.appspot.com/view/"+str(item.key().id())),\
+			  'urlid': urlencode(item.value)\
+			}))
 
 
 def main():
