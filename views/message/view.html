@@ -6,16 +6,19 @@
 <script type="text/javascript">
 $(function(){
 	console.log($("#value").text());
+	var trimmedValue = $("#value").text().replace(/^\s+|\s+$/g, '');
 	$.ajax({
 		url: "http://search.twitter.com/search.json",
-		data: {q: $("#value").text().replace(/^\s+|\s+$/g, ''), lang:"en"},
+		data: {q: trimmedValue, lang:"en"},
 		dataType: 'jsonp',
 		success: function (o) {
 			$.each(o.results,function(){
-				$("#twitter").append("<div><img src='"+this.profile_image_url+"'/> "+
-					"<h3 style='display:inline;'><a href='http://twitter.com/"+this.from_user+"/'>"+this.from_user+"</a></h3>"+
-					"<p>"+this.text+"</p>"+
-					""+this.created_at+"</div>");
+				if (this.text.indexOf(trimmedValue)>=0){
+					$("#twitter").append("<div><img src='"+this.profile_image_url+"'/> "+
+						"<h3 style='display:inline;'><a href='http://twitter.com/"+this.from_user+"/'>"+this.from_user+"</a></h3>"+
+						"<p>"+this.text+"</p>"+
+						""+this.created_at+"</div>");
+				}
 			});
 		}
 	});

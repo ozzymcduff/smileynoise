@@ -1,16 +1,19 @@
 application: smileynoise
-version: 3
+version: 4
 runtime: python
 api_version: 1
 
 handlers:
+
 - url: /
   script: main.py
+- url: /view/.*
+  script: message.py
+
 - url: /message/.*
   script: message.py
   login: required
-- url: /view/.*
-  script: main.py
+  
 - url: /scripts
   static_dir: scripts
 - url: /styles

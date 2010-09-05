@@ -6,15 +6,42 @@ import cgi
 import wsgiref.handlers
 from google.appengine.ext import webapp
 
-import re
 from model import *
 from django.utils import simplejson
 from smileys import SmileysValidation
-from urlhelper import urlencode
+from urlhelper import urlencode,urldecode
+import urllib
 
 def str_to_long(_id):
 	id = int(_id) if _id != '' else None
 	return id
+
+class ViewMessage(webapp.RequestHandler):
+	def get(self,value):
+		ids=None
+		try:
+			ids=int(value)
+		except ValueError:
+			pass
+		if ids:#support both int id and url encoded smiley
+			item = Message.get_by_id(ids=ids,parent=None)
+		else:
+			item = Message.gql("WHERE value = :value",value=urldecode(value)).get()
+
+		if item:
+			self.response.out.write(template.render('views/message/view.html',\
+				{ 'data':item,\
+				  'url': urllib.quote_plus("http://smileynoise.appspot.com/view/"+str(item.key().id())),\
+				  'urlid': urlencode(item.value)\
+				}))
+		else:
+			missing_view = 'views/message/missing_id.html' if ids else 'views/message/missing_smiley.html'
+
+			self.error(404)
+			self.response.out.write(template.render(missing_view,\
+				{ 'urlid': value,\
+				  'id': urldecode(value)\
+				}))
 
 class EditMessageForm(webapp.RequestHandler):
 	Type = Message
@@ -28,13 +55,12 @@ class EditMessageForm(webapp.RequestHandler):
 	def get(self,pagetype,id):
 		id = str_to_long( id)
 		self.assert_type(id,pagetype)
-		item = self.Type.get_by_id(ids=id,parent=None) if id else {'id':"",'value':""}
-		if id and item.writer != users.get_current_user():
-			raise 'no access'
+		item = self.Type.get_by_id(ids=id,parent=None) if id else {'id':"",'value':self.request.get('value')}
+		if id: item.assert_access()
 		self.response.out.write(template.render('views/message/edit.html',{'data':item,'type':pagetype}))
 	def post(self,pagetype,id):
 		id = str_to_long( id)
-		self.assert_type(id,pagetype);
+		self.assert_type(id,pagetype)
 		errors = []
 		value=self.request.get('value')
 		if not  SmileysValidation().isValid(value):
@@ -42,8 +68,7 @@ class EditMessageForm(webapp.RequestHandler):
 		#else:
 		if id :
 			item = self.Type.get_by_id(ids=id,parent=None)
-			if item.writer != users.get_current_user():
-				raise 'no access'
+			item.assert_access()
 			item.value = value
 		else:
 			item = Message(value=value,writer=users.get_current_user())
@@ -70,13 +95,11 @@ class ListForm(webapp.RequestHandler):
 class ConfirmDelete(webapp.RequestHandler):
 	def get(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
-		if item.writer != users.get_current_user():
-			raise 'no access'
+		item.assert_access()
 		self.response.out.write(template.render('views/message/confirmdelete.html',{ 'data':item}))
 	def post(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
-		if item.writer != users.get_current_user():
-			raise 'no access'
+		item.assert_access()
 		item.delete()
 		self.redirect("/message/")
 
@@ -84,10 +107,11 @@ application = webapp.WSGIApplication([
 
 ('/message/(create|edit)/([^\/]*).*', EditMessageForm),
 ('/message/confirmdelete/([^\/]*).*', ConfirmDelete),
-
+('/view/([^\/]*).*', ViewMessage),
+('/message/view/([^\/]*).*', ViewMessage),
 ('/message/.*', ListForm),
 
-], debug=True)
+], debug=False)
 
 def main():
 	wsgiref.handlers.CGIHandler().run(application)

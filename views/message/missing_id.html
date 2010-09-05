@@ -1,0 +1,15 @@
+{% extends "../main/base.html" %}
+{% block title %}{{ data.value|escape }}{% endblock %}
+{% block head %}
+<meta name="description" content="Missing {{ id|escape }}." />
+<style type="text/css" media="screen">
+	#image{display:block;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="span-9 prepend-1">
+<p>There is no message with id {{ id|escape }}.</p>
+</div>
+<hr/>
+
+{% endblock %}

@@ -3,3 +3,12 @@ http://code.google.com/appengine/
 
 The urlencode from django is used in order to support unicode text.
 
+TODO:
+
+BUG:
+Given that the user wants to view a smiley XD.
+Where XD is entered by several persons. 
+Then the list of persons that have entered that smiley should be displayed.
+
+http://smileynoise.appspot.com/view/XD
+

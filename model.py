@@ -11,3 +11,6 @@ class Message(db.Model):
 	updated = db.DateTimeProperty(auto_now=True)
 	def __str__(self):
 		return self.value
+	def assert_access(self):
+		if self.writer != users.get_current_user():
+			raise 'no access'
