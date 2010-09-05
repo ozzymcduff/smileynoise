@@ -26,22 +26,23 @@ $(function(){
 </script>
 <style type="text/css" media="screen">
 	#image{display:block;}
+	#writer ul{list-style-type:none;}
 </style>
 {% endblock %}
 {% block content %}
 <div class="span-9 prepend-1">
 <fieldset>
 <p>
-	<label for="value">Value:</label>
-	<div id="value">{{ data.value|escape }}</div>
+	<label for="value">Value:</label><br/>
+	<span id="value">{{ data.value|escape }}</span>
 </p>
 <p>
-	<label for="image">Image:</label>
+	<label for="image">Image:</label><br/>
 	<img id="image" src="http://fierce-rain-25.heroku.com/image/view?smiley={{ urlid }}" alt="{{ data.value|escape }}"/>
 </p>
 <p>
-	<label for="writer">Author:</label>
-	<div id="writer">{{ data.writer|escape }}</div>
+	<label for="writer">Author(s):</label><br/>
+	<div id="writer"><ul>{% for writer in data.writers %}<li>{{ writer|escape }}</li>{% endfor %}</ul></div>
 </p>
 </fieldset>
 <iframe src="http://www.facebook.com/plugins/like.php?href={{ url }}&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:100px"></iframe>

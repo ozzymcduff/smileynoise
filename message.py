@@ -26,7 +26,12 @@ class ViewMessage(webapp.RequestHandler):
 		if ids:#support both int id and url encoded smiley
 			item = Message.get_by_id(ids=ids,parent=None)
 		else:
-			item = Message.gql("WHERE value = :value",value=urldecode(value)).get()
+			item = None
+			for data in Message.gql("WHERE value = :value",value=urldecode(value)):
+				if not item : 
+					item = data 
+					item.writers =[]
+				item.writers.append("%s at %s" % (item.writer,item.updated.date()))
 
 		if item:
 			self.response.out.write(template.render('views/message/view.html',\
@@ -89,7 +94,7 @@ class ListForm(webapp.RequestHandler):
 							ORDER BY updated DESC """, writer=users.get_current_user())
 		txt = []
 		for item in data:
-			txt.append({'id':item.key().id(),'value':item.value,'urlid':urlencode(item.value)})
+			txt.append(Message.toDictionary(item))
 		self.response.out.write(template.render('views/message/list.html',{'messages':txt}))
 
 class ConfirmDelete(webapp.RequestHandler):
@@ -111,7 +116,7 @@ application = webapp.WSGIApplication([
 ('/message/view/([^\/]*).*', ViewMessage),
 ('/message/.*', ListForm),
 
-], debug=False)
+], debug=True)
 
 def main():
 	wsgiref.handlers.CGIHandler().run(application)

@@ -5,7 +5,6 @@ import wsgiref.handlers
 from google.appengine.ext.webapp import template
 
 from google.appengine.ext import webapp
-from urlhelper import urlencode,urldecode
 
 
 class MainHandler(webapp.RequestHandler):
@@ -15,9 +14,7 @@ class MainHandler(webapp.RequestHandler):
 						ORDER BY updated DESC """)
 		txt = []
 		for item in data:
-			txt.append({'id':item.key().id(),'value':item.value,\
-				'writer':item.writer.nickname(),\
-				'urlid': urlencode(item.value) } )
+			txt.append( Message.toDictionary(item) )
 		self.response.out.write(template.render('views/main/index.html',{'messages':txt}))
 			
 
@@ -25,7 +22,7 @@ class MainHandler(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication(
 	[('/', MainHandler),\
-	],debug=False)
+	],debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
 
