@@ -27,7 +27,9 @@ class ViewMessage(webapp.RequestHandler):
 			item = Message.get_by_id(ids=ids,parent=None)
 		else:
 			item = None
-			for data in Message.gql("WHERE value = :value",value=urldecode(value)):
+			for data in db.GqlQuery("""SELECT * 
+								FROM Message WHERE value = :value
+								ORDER BY updated DESC """,value=urldecode(value)):
 				if not item : 
 					item = data 
 					item.writers =[]

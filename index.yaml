@@ -12,6 +12,12 @@ indexes:
 
 - kind: Message
   properties:
+  - name: value
+  - name: updated
+    direction: desc
+
+- kind: Message
+  properties:
   - name: writer
   - name: updated
     direction: desc
