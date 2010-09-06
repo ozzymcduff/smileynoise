@@ -9,6 +9,8 @@ handlers:
   script: main.py
 - url: /view/.*
   script: message.py
+- url: /message/view/.*
+  script: message.py
 
 - url: /message/.*
   script: message.py
