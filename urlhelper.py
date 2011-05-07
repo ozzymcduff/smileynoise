@@ -94,5 +94,10 @@ class urlhelperTests(unittest.TestCase):
 	def testOfVal(self):
 		self.assertEqual(u":€",urldecode("%3A%E2%82%AC"));
 		self.assertEqual(u":€",urldecode(u"%3A%E2%82%AC"));
+	def testOfHeadbangingSmiley(self):
+		encoded = "%5Cm%2F%5C>.<%2F%5Cm%2F"
+		unencoded = "\m/\>.</\m/"
+		print unencoded
+		self.assertEqual(unencoded,urldecode(encoded));
 if __name__ == '__main__':
 	unittest.main()

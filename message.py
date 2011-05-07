@@ -112,10 +112,10 @@ class ConfirmDelete(webapp.RequestHandler):
 
 application = webapp.WSGIApplication([
 
-('/message/(create|edit)/([^\/]*).*', EditMessageForm),
-('/message/confirmdelete/([^\/]*).*', ConfirmDelete),
-('/view/([^\/]*).*', ViewMessage),
-('/message/view/([^\/]*).*', ViewMessage),
+('/message/(create|edit)/(.*)', EditMessageForm),
+('/message/confirmdelete/(.*)', ConfirmDelete),
+('/view/(.*)', ViewMessage),
+('/message/view/(.*)', ViewMessage),
 ('/message/.*', ListForm),
 
 ], debug=True)
