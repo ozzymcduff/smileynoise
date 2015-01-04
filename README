@@ -1,6 +1,0 @@
-The code is based on 
-http://code.google.com/appengine/
-
-The urlencode from django is used in order to support unicode text.
-
-
