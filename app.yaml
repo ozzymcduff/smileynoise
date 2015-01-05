@@ -1,19 +1,20 @@
 application: smileynoise-hrd
 version: 4
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 handlers:
 
 - url: /
-  script: main.py
+  script: main.application
 - url: /view/.*
-  script: message.py
+  script: message.application
 - url: /message/view/.*
-  script: message.py
+  script: message.application
 
 - url: /message/.*
-  script: message.py
+  script: message.application
   login: required
   
 - url: /scripts
@@ -21,5 +22,5 @@ handlers:
 - url: /styles
   static_dir: styles
 - url: .*
-  script: not_found.py
+  script: not_found.application
 

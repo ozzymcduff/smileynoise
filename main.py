@@ -1,30 +1,28 @@
 from google.appengine.ext import db
 from google.appengine.api import users
 from model import *
-import wsgiref.handlers
-from google.appengine.ext.webapp import template
+import jinja2
+import webapp2
 
-from google.appengine.ext import webapp
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
+class MainHandler(webapp2.RequestHandler):
+    def get(self):
+        data = db.GqlQuery("""SELECT * 
+            FROM Message
+            ORDER BY updated DESC """)
+        txt = []
+        for item in data:
+            txt.append( Message.toDictionary(item) )
 
-class MainHandler(webapp.RequestHandler):
-	def get(self):
-		data = db.GqlQuery("""SELECT * 
-						FROM Message
-						ORDER BY updated DESC """)
-		txt = []
-		for item in data:
-			txt.append( Message.toDictionary(item) )
-		self.response.out.write(template.render('views/main/index.html',{'messages':txt}))
-			
-
-
-def main():
-	application = webapp.WSGIApplication(
-		[('/', MainHandler),\
-		],debug=True)
-	wsgiref.handlers.CGIHandler().run(application)
+        template = JINJA_ENVIRONMENT.get_template('views/main/index.html')
+        self.response.write(template.render({'messages':txt}))
 
 
-if __name__ == '__main__':
-	main()
+application = webapp2.WSGIApplication(
+[('/', MainHandler),\
+],debug=True)
+
