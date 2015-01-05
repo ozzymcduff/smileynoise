@@ -20,11 +20,11 @@ class MainHandler(webapp.RequestHandler):
 
 
 def main():
-  application = webapp.WSGIApplication(
-	[('/', MainHandler),\
-	],debug=True)
-  wsgiref.handlers.CGIHandler().run(application)
+	application = webapp.WSGIApplication(
+		[('/', MainHandler),\
+		],debug=True)
+	wsgiref.handlers.CGIHandler().run(application)
 
 
 if __name__ == '__main__':
-  main()
+	main()
