@@ -7,7 +7,7 @@ from google.appengine.ext import webapp
 class NotFoundHandler(webapp.RequestHandler):
 
   def get(self):
-    self.response.out.write('Not found!')
+    self.response.write('Not found!')
 
 
 def main():

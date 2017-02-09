@@ -1,7 +1,8 @@
 application: smileynoise-hrd
 version: 4
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: false
 
 handlers:
 
@@ -23,3 +24,6 @@ handlers:
 - url: .*
   script: not_found.py
 
+libraries:
+- name: jinja2
+  version: latest

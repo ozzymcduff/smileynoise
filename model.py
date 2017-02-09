@@ -1,8 +1,6 @@
 import datetime
 from google.appengine.ext import db
 from google.appengine.api import users
-from google.appengine.ext.webapp import template
-from google.appengine.ext.db import djangoforms
 from urlhelper import urlencode,urldecode
 
 class Message(db.Model):

@@ -5,12 +5,17 @@ from google.appengine.ext.webapp import template
 import cgi
 import wsgiref.handlers
 from google.appengine.ext import webapp
+import os
+import jinja2
 
 from model import *
-from django.utils import simplejson
 from smileys import SmileysValidation
 from urlhelper import urlencode,urldecode
 import urllib
+JENV = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 def str_to_long(_id):
 	id = int(_id) if _id != '' else None
@@ -36,16 +41,18 @@ class ViewMessage(webapp.RequestHandler):
 				item.writers.append("%s at %s" % (item.writer,item.updated.date()))
 
 		if item:
-			self.response.out.write(template.render('views/message/view.html',\
+			template = JENV.get_template('views/message/view.html')
+
+			self.response.write(template.render(\
 				{ 'data':item,\
 				  'url': urllib.quote_plus("http://smileynoise.appspot.com/view/"+str(item.key().id())),\
 				  'urlid': urlencode(item.value)\
 				}))
 		else:
 			missing_view = 'views/message/missing_id.html' if ids else 'views/message/missing_smiley.html'
-
+			template = JENV.get_template(missing_view)
 			self.error(404)
-			self.response.out.write(template.render(missing_view,\
+			self.response.write(template.render(\
 				{ 'urlid': value,\
 				  'id': urldecode(value)\
 				}))
@@ -54,17 +61,18 @@ class EditMessageForm(webapp.RequestHandler):
 	Type = Message
 	Home = '/message/'
 	def assert_type(self,id,tp):
-		if ( not 
-			{'create': lambda x: x == None,
-			'edit': lambda x: x != None}[tp](id)):
-			raise 'fail'
+		if tp== 'create' and id != None :
+			raise Exception('New messages should not have an id')
+		if tp== 'edit' and id == None :
+			raise Exception('When editing messages you must have an id')
 
 	def get(self,pagetype,id):
 		id = str_to_long( id)
 		self.assert_type(id,pagetype)
 		item = self.Type.get_by_id(ids=id,parent=None) if id else {'id':"",'value':self.request.get('value')}
 		if id: item.assert_access()
-		self.response.out.write(template.render('views/message/edit.html',{'data':item,'type':pagetype}))
+		template = JENV.get_template('views/message/edit.html')
+		self.response.write(template.render({'data':item,'type':pagetype}))
 	def post(self,pagetype,id):
 		id = str_to_long( id)
 		self.assert_type(id,pagetype)
@@ -87,7 +95,8 @@ class EditMessageForm(webapp.RequestHandler):
 			self.redirect(self.Home)
 		else:
 			# Reprint the form
-			self.response.out.write(template.render('views/message/edit.html',{'errors':errors, 'data':item,'type':pagetype}))
+			template = JENV.get_template('views/message/edit.html')
+			self.response.write(template.render({'errors':errors, 'data':item,'type':pagetype}))
 
 class ListForm(webapp.RequestHandler):
 	def get(self):
@@ -97,13 +106,15 @@ class ListForm(webapp.RequestHandler):
 		txt = []
 		for item in data:
 			txt.append(Message.toDictionary(item))
-		self.response.out.write(template.render('views/message/list.html',{'messages':txt}))
+		template = JENV.get_template('views/message/list.html')
+		self.response.write(template.render({'messages':txt}))
 
 class ConfirmDelete(webapp.RequestHandler):
 	def get(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
 		item.assert_access()
-		self.response.out.write(template.render('views/message/confirmdelete.html',{ 'data':item}))
+		template = JENV.get_template('views/message/confirmdelete.html')
+		self.response.write(template.render({ 'data':item}))
 	def post(self,id):
 		item = Message.get_by_id(ids=int(id),parent=None) 
 		item.assert_access()
